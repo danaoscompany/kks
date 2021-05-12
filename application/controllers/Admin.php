@@ -164,4 +164,35 @@ class Admin extends CI_Controller {
 			'type' => 'alarm_off'
 		));
 	}
+	
+	public function update_pejabat_batalyon() {
+		$id = $this->input->post('id');
+		$name = $this->input->post('name');
+		$category = $this->input->post('category');
+		$profilePictureChanged = intval($this->input->post('profile_picture_changed'));
+		if ($profilePictureChanged == 1) {
+			$config = array(
+				'upload_path' => './userdata/',
+				'allowed_types' => "*",
+				'overwrite' => TRUE
+			);
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('file')) {
+				$this->db->where('id', $id);
+				$this->db->update('officials', array(
+					'name' => $name,
+					'category' => $category,
+					'profile_picture' => $this->upload->data()['file_name']
+				));
+			} else {
+				echo json_encode($this->upload->display_errors());
+			}
+		} else {
+			$this->db->where('id', $id);
+			$this->db->update('officials', array(
+				'name' => $name,
+				'category' => $category
+			));
+		}
+	}
 }
