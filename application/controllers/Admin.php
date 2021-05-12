@@ -13,7 +13,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_pejabat_batalyons() {
-		echo json_encode($this->db->query("SELECT * FROM `officials` ORDER BY `name`")->result_array());
+		echo json_encode($this->db->query("SELECT * FROM `officials`")->result_array());
 	}
 	
 	public function add_admin() {
