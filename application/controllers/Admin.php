@@ -122,7 +122,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function add_document() {
-		$name = $this->input->post('name');
+		$title = $this->input->post('title');
 		$config = array(
 			'upload_path' => './userdata/',
 			'allowed_types' => "*",
