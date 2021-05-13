@@ -13,7 +13,12 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_pejabat_batalyons() {
-		echo json_encode($this->db->query("SELECT * FROM `officials`")->result_array());
+		$officials = $this->db->query("SELECT * FROM `officials`")->result_array();
+		$pageCount = $this->db->query("SELECT * FROM `officials` GROUP BY `page`")->num_rows();
+		echo json_encode(array(
+			'page_count' => $pageCount,
+			'officials' => $officials
+		));
 	}
 	
 	public function add_admin() {
@@ -49,13 +54,14 @@ class Admin extends CI_Controller {
 	public function add_pejabat_batalyon() {
 		$name = $this->input->post('name');
 		$category = $this->input->post('category');
+		$page = $this->input->post('page');
 		$officials = $this->db->query("SELECT * FROM `officials` WHERE `name`='" . $name . "'")->result_array();
 		if (sizeof($officials) > 0) {
 			echo json_encode(array(
 				'response_code' => -1
 			));
 		} else {
-			$this->db->query("INSERT INTO `officials` (`name`, `category`) VALUES ('" . $name . "', '" . $category . "')");
+			$this->db->query("INSERT INTO `officials` (`name`, `category`, `page`) VALUES ('" . $name . "', '" . $category . "', " . $page . ")");
 			echo json_encode(array(
 				'response_code' => 1
 			));
