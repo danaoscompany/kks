@@ -129,7 +129,7 @@ class Admin extends CI_Controller {
 			'overwrite' => TRUE
 		);
 		$this->load->library('upload', $config);
-		if ($this->upload->do_upload('file')) {
+		if ($this->upload->do_upload('document')) {
 			$this->db->insert('documents', array(
 				'title' => $title,
 				'path' => $this->upload->data()['file_name']
