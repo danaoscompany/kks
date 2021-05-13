@@ -90,7 +90,9 @@ class Admin extends CI_Controller {
 	
 	public function delete_document() {
 		$id = $this->input->post('id');
+		$path = $this->db->query("SELECT * FROM `documents` WHERE `id`=" . $id)->row_array()['path'];
 		$this->db->query("DELETE FROM `documents` WHERE `id`=" . $id);
+		unlink("userdata/" . $path);
 	}
 	
 	public function save_ig_page() {
