@@ -100,6 +100,11 @@ class Admin extends CI_Controller {
 		$this->db->query("UPDATE `settings` SET `profil_satuan_ig_page`='" . $url . "'");	
 	}
 	
+	public function save_news_page() {
+		$url = $this->input->post('url');
+		$this->db->query("UPDATE `settings` SET `news_page`='" . $url . "'");	
+	}
+	
 	public function get_alarms() {
 		echo json_encode($this->db->query("SELECT * FROM `alarms`")->result_array());
 	}
@@ -146,7 +151,8 @@ class Admin extends CI_Controller {
 		$admins = $this->db->query("SELECT * FROM `admins` WHERE `email`='" . $email . "'")->result_array();
 		if (sizeof($admins) > 0) {
 			echo json_encode(array(
-				'response_code' => 1
+				'response_code' => 1,
+				'user_id' => intval($admins[0]['id'])
 			));
 		} else {
 			echo json_encode(array(
@@ -159,11 +165,13 @@ class Admin extends CI_Controller {
 		$title = $this->input->post('title');
 		$description = $this->input->post('description');
 		$ringtone = intval($this->input->post('ringtone'));
+		$trackRecordUUID = $this->input->post('track_record_uuid');
 		FCM::send_notification_to_topic("", "", "alarm", array(
 			'type' => 'alarm_on',
 			'title' => $title,
 			'description' => $description,
-			'ringtone' => "" . $ringtone
+			'ringtone' => "" . $ringtone,
+			'track_record_uuid' => $trackRecordUUID
 		));
 	}
 	
