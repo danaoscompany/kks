@@ -211,4 +211,34 @@ class Admin extends CI_Controller {
 			));
 		}
 	}
+	
+	public function add_news_site() {
+		$title = $this->input->post('title');
+		$url = $this->input->post('url');
+		$this->db->insert('news_sites', array(
+			'title' => $title,
+			'url' => $url
+		));
+	}
+	
+	public function update_news_site() {
+		$id = $this->input->post('id');
+		$title = $this->input->post('title');
+		$url = $this->input->post('url');
+		$this->db->where('id', $id);
+		$this->db->update('news_sites', array(
+			'title' => $title,
+			'url' => $url
+		));
+	}
+	
+	public function delete_site() {
+		$id = $this->input->post('id');
+		$this->db->query("DELETE FROM `news_sites` WHERE `id`=" . $id);
+	}
+	
+	public function get_news_site_by_id() {
+		$id = $this->input->post('id');
+		echo json_encode($this->db->query("SELECT * FROM `news_sites` WHERE `id`=" . $id)->row_array());
+	}
 }

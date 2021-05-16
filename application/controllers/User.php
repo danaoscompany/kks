@@ -19,6 +19,10 @@ class User extends CI_Controller {
 		echo $this->db->query("SELECT * FROM `settings` LIMIT 1")->row_array()['news_page'];
 	}
 	
+	public function get_news_websites() {
+		echo json_encode($this->db->query("SELECT * FROM `news_sites`")->result_array());
+	}
+	
 	public function get_alarms() {
 		echo json_encode($this->db->query("SELECT * FROM `alarms`")->result_array());
 	}
